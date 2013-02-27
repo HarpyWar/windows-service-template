@@ -11,7 +11,7 @@ namespace WindowsServiceTemplate
 {
     public partial class Service : ServiceBase
     {
-        private TestService s;
+        private readonly TestService s;
         public Service()
         {
             InitializeComponent();

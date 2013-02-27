@@ -42,7 +42,6 @@ namespace WindowsServiceTemplate
             // console mode
             if (Environment.UserInteractive)
             {
-                var s = new Service();
                 service.Start();
 
                 Console.WriteLine("Press any key to stop the service...");

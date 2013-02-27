@@ -14,5 +14,26 @@ namespace WindowsServiceTemplate
         {
             InitializeComponent();
         }
+
+
+        protected override void OnBeforeInstall(System.Collections.IDictionary savedState)
+        {
+            base.OnBeforeInstall(savedState);
+
+            // set service name
+            this.serviceInstaller1.DisplayName = Config.DisplayName;
+            this.serviceInstaller1.ServiceName = Config.ServiceName;
+            this.serviceInstaller1.Description = Config.Description;
+        }
+
+        protected override void OnBeforeUninstall(System.Collections.IDictionary savedState)
+        {
+            base.OnBeforeUninstall(savedState);
+
+            // set service name
+            this.serviceInstaller1.DisplayName = Config.DisplayName;
+            this.serviceInstaller1.ServiceName = Config.ServiceName;
+            this.serviceInstaller1.Description = Config.Description;
+        }
     }
 }
