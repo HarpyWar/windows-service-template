@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsServiceTemplate
 {
@@ -14,12 +13,23 @@ namespace WindowsServiceTemplate
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new Service1() 
-            };
-            ServiceBase.Run(ServicesToRun);
+
+            // console mode
+            if (Environment.UserInteractive)
+            {
+                Console.WriteLine("Console mode");
+                Console.Read();
+            }
+            // service mode
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                    {
+                        new Service1()
+                    };
+                ServiceBase.Run(ServicesToRun);
+            }
         }
     }
 }
