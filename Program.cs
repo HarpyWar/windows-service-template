@@ -36,13 +36,13 @@ namespace WindowsServiceTemplate
                 Environment.Exit(0);
             }
 
-            var service = new TestService();
+            var service = new Service();
             ServiceBase[] servicesToRun = new ServiceBase[] { service };
 
             // console mode
             if (Environment.UserInteractive)
             {
-                var s = new TestService();
+                var s = new Service();
                 service.Start();
 
                 Console.WriteLine("Press any key to stop the service...");

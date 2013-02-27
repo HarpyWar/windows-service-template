@@ -1,40 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
+using System.Threading;
 
 namespace WindowsServiceTemplate
 {
-    public partial class TestService : ServiceBase
+    public class TestService
     {
+        private readonly Thread t;
         public TestService()
         {
-            InitializeComponent();
+            t = new Thread(doWork);
         }
-
-        protected override void OnStart(string[] args)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnStop()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnShutdown()
-        {
-            Stop();
-        }
-
 
         public void Start()
         {
-            OnStart(null);
+            t.Start();
         }
+        public void Stop()
+        {
+            t.Abort();
+        }
+
+
+        private void doWork()
+        {
+            while (true)
+            {
+                Console.WriteLine("ping");
+                // do some work
+
+                Thread.Sleep(1000);
+            }
+        }
+
+
     }
 }
