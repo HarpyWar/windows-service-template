@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace WindowsServiceTemplate
 {
+    /// <summary>
+    /// Example service, rename and modify it to suit your needs
+    /// </summary>
     public class TestService
     {
         private readonly Thread t;
