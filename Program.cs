@@ -36,22 +36,24 @@ namespace WindowsServiceTemplate
                 Environment.Exit(0);
             }
 
+            var service = new TestService();
+            ServiceBase[] servicesToRun = new ServiceBase[] { service };
 
             // console mode
             if (Environment.UserInteractive)
             {
-                Console.WriteLine("Console mode");
+                var s = new TestService();
+                service.Start();
+
+                Console.WriteLine("Press any key to stop the service...");
                 Console.Read();
+
+                service.Stop();
             }
             // service mode
             else
             {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[]
-                    {
-                        new Service1()
-                    };
-                ServiceBase.Run(ServicesToRun);
+                ServiceBase.Run(servicesToRun);
             }
         }
     }
