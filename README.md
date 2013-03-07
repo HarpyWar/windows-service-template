@@ -14,15 +14,15 @@ Please, examine commit history if you want to understand the details.
 * Simple file logger
 
 
-## Start to develop a new windows service
+## Start to develop your own windows service
 
 `TestService.cs` is an example polling service. It just writes "ping" to console each second. Rename and modify it to suit your needs.
 
 In the `Service.cs` you can handle service events like `Start`, `Stop` and `Shutdown`.
 
-In the `Installer.cs` you can handle `Before` and `After` installation events. There is already code to change service name and description from the config file.
+In the `Installer.cs` you can handle `Before` and `After` installation events. There is already code to replace service name and description from the config file.
 
-Rename `WindowsServiceTemplate.config` to your `{assemblyname}.config`. If `{assemblyname}.config` doesn't exist then default confuguration values will be used. So, you have to change default values in `Config.cs`. Also you can add your own configuration properties with a needed logic.
+Rename `WindowsServiceTemplate.config` to your `{assemblyname}.config`. If `{assemblyname}.config` doesn't exist then default confuguration values will be used. So, you have to change default values in `Config.cs`. Also you can add another configuration properties with custom logic.
 
 Use `Log.Debug` to write debug events when the application is running as a service. And `Log.Info` or `Log.Error` to write any other events and errors. If you want you can easy switch to another logger like [log4net](http://logging.apache.org/log4net/) or [NLog](http://nlog-project.org/).
 
@@ -36,4 +36,6 @@ Administrator privileges are required for a service install/uninstall. UAC execu
     <!--<requestedExecutionLevel level="asInvoker" uiAccess="false" />-->
     <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
   
-By default service will be installed under account `LocalSystem`. You can change it in `Installer.serviceProcessInstaller1.Account` property from designer or in code.
+By default a service will be installed under account `LocalSystem`. You can change it in `Installer.serviceProcessInstaller1.Account` property from designer or in code.
+
+Install and Uninstall identify a service by unique `ServiceName` string - it is defined in configuration file.
