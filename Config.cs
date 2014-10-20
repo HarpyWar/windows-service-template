@@ -14,6 +14,7 @@ namespace WindowsServiceTemplate
     internal class Config
     {
         private static XmlDocument xmlDoc;
+        private const string configFile = "config.xml";
 
         static Config()
         {
@@ -21,7 +22,7 @@ namespace WindowsServiceTemplate
             {
                 // get program filename and load config file "{ProgramName}.xml"
                 string exeName = Assembly.GetEntryAssembly().Location;
-                string configName = Path.GetFileNameWithoutExtension(exeName) + ".xml";
+                string configName = Path.Combine(Path.GetDirectoryName(exeName), configFile);
 
                 xmlDoc = new XmlDocument();
                 xmlDoc.Load(configName);
@@ -29,8 +30,11 @@ namespace WindowsServiceTemplate
             catch
             {
                 xmlDoc = null;
+                Log.Error("Could not load " + configFile);
             }
         }
+
+#region Internal Options
 
         /// <summary>
         /// Service name
@@ -96,20 +100,46 @@ namespace WindowsServiceTemplate
                 if (_logFile != null)
                     return _logFile;
 
-                var value = GetConfigurationValue("LogFile");
-                _logFile = value ?? @"event.log";
+                // get log file name like {programFileName}.log
+                string exeName = Assembly.GetEntryAssembly().Location;
+                _logFile = Path.Combine(Path.GetDirectoryName(exeName), Path.GetFileNameWithoutExtension(exeName) + ".log");
 
                 return _logFile;
             }
         }
         private static string _logFile;
 
+#endregion
 
 
+#region User Defined Options
+
+        /// <summary>
+        /// Just a test option
+        /// </summary>
+        public static int StartFrom
+        {
+            get
+            {
+                if (_startFrom != null)
+                    return (int)_startFrom;
+
+                var value = GetConfigurationValue("StartFrom");
+                int valueInt;
+                _startFrom = int.TryParse(value, out valueInt)
+                    ? valueInt
+                    : 123; // default
+
+                return (int)_startFrom;
+            }
+        }
+        private static int? _startFrom;
+
+#endregion
 
 
         /// <summary>
-        /// Return config value by key from {ProgramName}.xml
+        /// Return config value by key from config.xml
         /// </summary>
         /// <param name="key"></param>
         /// <returns>return null if value doesn't exist</returns>

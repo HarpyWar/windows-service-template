@@ -3,5 +3,6 @@
   <ServiceName>TestService</ServiceName>
   <DisplayName>Test Service Title</DisplayName>
   <Description>Service description</Description>
-  <LogFile>event.log</LogFile>
+  <!-- just a test option with a value for init ping counter -->
+  <StartFrom>123</StartFrom>
 </configuration>

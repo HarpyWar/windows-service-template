@@ -33,7 +33,7 @@ namespace WindowsServiceTemplate
                             Console.WriteLine("Failed to uninstall service");
                         break;
                     default:
-                        Console.WriteLine("Unrecognized parameters.");
+                        Console.WriteLine("Unrecognized parameters (allowed: /install or /uninstall)");
                         break;
                 }
                 Environment.Exit(0);
@@ -51,7 +51,7 @@ namespace WindowsServiceTemplate
 
                 Console.Title = Config.DisplayName;
 
-                Log.Debug("Running in console mode");
+                Log.Debug("Running in a console mode");
                 service.Start();
 
                 Console.WriteLine("Press any key to stop the service...");
@@ -62,7 +62,7 @@ namespace WindowsServiceTemplate
             // service mode
             else
             {
-                Log.Debug("Running in service mode");
+                Log.Debug("Running in a service mode");
                 ServiceBase.Run(servicesToRun);
             }
         }

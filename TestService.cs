@@ -26,10 +26,11 @@ namespace WindowsServiceTemplate
 
         private void doWork()
         {
+            int i = Config.StartFrom;
             while (true)
             {
-                Console.WriteLine("ping");
-                // do some work
+                Log.Info("Ping " + i);
+                i++;
 
                 Thread.Sleep(1000);
             }
