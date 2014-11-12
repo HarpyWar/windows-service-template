@@ -1,45 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
+﻿using System.ServiceProcess;
+using NLog;
 
 namespace WindowsServiceTemplate
 {
     public partial class Service : ServiceBase
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly TestService s;
         public Service()
         {
+            Exceptionless.ExceptionlessClient.Current.Startup();
             InitializeComponent();
             s = new TestService();
         }
 
         protected override void OnStart(string[] args)
         {
-            Log.Debug("Start event");
+            Logger.Debug("Start event");
             s.Start();
         }
 
         protected override void OnStop()
         {
-            Log.Debug("Stop event");
+            Logger.Debug("Stop event");
             s.Stop();
         }
 
         protected override void OnShutdown()
         {
-            Log.Debug("Windows is going shutdown");
-            this.Stop();
+            Logger.Debug("Windows is going shutdown");
+            Stop();
         }
 
 
         public void Start()
         {
-            this.OnStart(null);
+            OnStart(null);
         }
     }
 }

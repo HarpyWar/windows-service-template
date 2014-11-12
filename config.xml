@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<configuration>
-  <ServiceName>TestService</ServiceName>
-  <DisplayName>Test Service Title</DisplayName>
-  <Description>Service description</Description>
-  <!-- just a test option with a value for init ping counter -->
-  <StartFrom>123</StartFrom>
-</configuration>

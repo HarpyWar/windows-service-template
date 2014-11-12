@@ -1,21 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
-using System.Text;
+using NLog;
 
 namespace WindowsServiceTemplate
 {
     static class Program
     {
-        private static Service service;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private static Service _service;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         static void Main(string[] args)
         {
+            Exceptionless.ExceptionlessClient.Current.Startup();
+
             // self service installer/uninstaller
             if (args != null && args.Length == 1
                 && (args[0][0] == '-' || args[0][0] == '/'))
@@ -39,30 +42,30 @@ namespace WindowsServiceTemplate
                 Environment.Exit(0);
             }
 
-            service = new Service();
-            ServiceBase[] servicesToRun = new ServiceBase[] { service };
+            _service = new Service();
+            var servicesToRun = new ServiceBase[] { _service };
 
             // console mode
             if (Environment.UserInteractive)
             {
                 // register console close event
-                _consoleHandler = new ConsoleCtrlHandlerDelegate(ConsoleEventHandler);
+                _consoleHandler = ConsoleEventHandler;
                 SetConsoleCtrlHandler(_consoleHandler, true);
 
-                Console.Title = Config.DisplayName;
+                Console.Title = AppDomain.CurrentDomain.FriendlyName;
 
-                Log.Debug("Running in a console mode");
-                service.Start();
+                Logger.Debug("Running in a console mode");
+                _service.Start();
 
                 Console.WriteLine("Press any key to stop the service...");
                 Console.Read();
 
-                service.Stop();
+                _service.Stop();
             }
             // service mode
             else
             {
-                Log.Debug("Running in a service mode");
+                Logger.Debug("Running in a service mode");
                 ServiceBase.Run(servicesToRun);
             }
         }
@@ -73,11 +76,13 @@ namespace WindowsServiceTemplate
         #region Page Event Setup
         enum ConsoleCtrlHandlerCode : uint
         {
+// ReSharper disable InconsistentNaming
             CTRL_C_EVENT = 0,
             CTRL_BREAK_EVENT = 1,
             CTRL_CLOSE_EVENT = 2,
             CTRL_LOGOFF_EVENT = 5,
             CTRL_SHUTDOWN_EVENT = 6
+// ReSharper restore InconsistentNaming
         }
         delegate bool ConsoleCtrlHandlerDelegate(ConsoleCtrlHandlerCode eventCode);
         [DllImport("kernel32.dll")]
@@ -97,7 +102,7 @@ namespace WindowsServiceTemplate
                 case ConsoleCtrlHandlerCode.CTRL_LOGOFF_EVENT:
                 case ConsoleCtrlHandlerCode.CTRL_SHUTDOWN_EVENT:
 
-                    service.Stop();
+                    _service.Stop();
 
                     Environment.Exit(0);
                     break;
