@@ -1,3 +1,11 @@
+This is a fork of [HarpyWar](https://github.com/HarpyWar/windows-service-template) project. 
+I have made following changes: 
+* Removed Log class and added NLog
+* Removed Config class 
+* Changed code style to be in line with R# recommendations
+
+--- 
+
 Windows Service Project Template
 ========================
 
