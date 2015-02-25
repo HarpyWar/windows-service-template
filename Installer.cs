@@ -14,7 +14,10 @@ namespace WindowsServiceTemplate
 
         private string GetName()
         {
-            return AppDomain.CurrentDomain.FriendlyName;
+            var friendlyName = AppDomain.CurrentDomain.FriendlyName;
+            return friendlyName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ?
+                                friendlyName.Substring(0, friendlyName.Length - 4) :
+                                friendlyName;
         }
 
         protected override void OnBeforeInstall(IDictionary savedState)
