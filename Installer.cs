@@ -12,34 +12,54 @@ namespace WindowsServiceTemplate
             InitializeComponent();
         }
 
-        private string GetName()
+        #region Service Properties (you can be freely change it)
+
+        private string DisplayName
         {
-            var friendlyName = AppDomain.CurrentDomain.FriendlyName;
-            return friendlyName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ?
-                                friendlyName.Substring(0, friendlyName.Length - 4) :
-                                friendlyName;
+            get
+            {
+                var friendlyName = AppDomain.CurrentDomain.FriendlyName;
+                return friendlyName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ?
+                                    friendlyName.Substring(0, friendlyName.Length - 4) :
+                                    friendlyName;
+            }
         }
+
+        private string ServiceName
+        {
+            get
+            {
+                return DisplayName;
+            }
+        }
+
+        private string Description
+        {
+            get
+            {
+                return DisplayName;
+            }
+        }
+
+        #endregion
+
 
         protected override void OnBeforeInstall(IDictionary savedState)
         {
             base.OnBeforeInstall(savedState);
 
-            // set service name
-            var name = GetName();
-            serviceInstaller1.DisplayName = name;
-            serviceInstaller1.ServiceName = name;
-            serviceInstaller1.Description = name;
+            serviceInstaller1.DisplayName = DisplayName;
+            serviceInstaller1.ServiceName = ServiceName;
+            serviceInstaller1.Description = Description;
         }
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
             base.OnBeforeUninstall(savedState);
 
-            // set service name
-            var name = GetName();
-            serviceInstaller1.DisplayName = name;
-            serviceInstaller1.ServiceName = name;
-            serviceInstaller1.Description = name;
+            serviceInstaller1.DisplayName = DisplayName;
+            serviceInstaller1.ServiceName = ServiceName;
+            serviceInstaller1.Description = Description;
         }
     }
 }
