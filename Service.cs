@@ -10,7 +10,6 @@ namespace WindowsServiceTemplate
         private readonly TestService s;
         public Service()
         {
-            Exceptionless.ExceptionlessClient.Current.Startup();
             InitializeComponent();
             s = new TestService();
         }

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using NLog;
+using Exceptionless;
 
 namespace WindowsServiceTemplate
 {
@@ -17,7 +18,7 @@ namespace WindowsServiceTemplate
         /// </summary>
         static void Main(string[] args)
         {
-            Exceptionless.ExceptionlessClient.Current.Startup();
+            ExceptionlessClient.Default.Register();
 
             // self service installer/uninstaller
             if (args != null && args.Length == 1
