@@ -1,43 +1,39 @@
-This is a fork of [HarpyWar](https://github.com/HarpyWar/windows-service-template) project. 
-I have made following changes: 
-* Removed Log class and added NLog
-* Removed Config class 
-* Changed code style to be in line with R# recommendations
-
---- 
 
 Windows Service Project Template
 ========================
 
-C# project template with an additional frequently usage functionality. 
+C# project template with an additional frequently used functionality. 
 
 Please, examine a commit history if you want to understand the details.
 
 
 ## Features
 
-* Run your service program in a console mode
-* Self installer/uninstaller using command line args `/install` and `/uninstall`
-* `config.xml` configuration file
-* Simple file logger
+* Run your program in both console or service mode
+* Self installer/uninstaller using command line args `/install` and `/uninstall` (shorten `/i` and `/u`)
+* [Formo](https://github.com/ChrisMissal/Formo) for easy reading `App.settings` properties
+* [NLog](https://github.com/NLog/NLog) for logging
+* [Exceptionless](https://github.com/exceptionless/Exceptionless.Net) for automatic logging of  unhandled exceptions
 
 
-## Start to develop your own windows service
+## Quick Start to develop your own windows service
 
 `TestService.cs` is an example polling service. It just sends "ping" to a terminal window for each second. Rename and modify it to suit your needs.
 
 In the `Service.cs` you can handle service events like `Start`, `Stop` and `Shutdown`.
 
-In the `Installer.cs` you can handle `Before` and `After` installation events. There is already a code to replace a service name and a description from the config file.
+In the `Installer.cs` you can handle `Before` and `After` installation events.
 
-If `config.xml` doesn't exist near `{assemblyname}.exe` then default configuration values are used. You have to change default values in `Config.cs` for that. Also there you can add another configuration properties with your custom logic.
+In the `AppSettings.cs` you can define own properties that should conform to properties in `App.config` section `appSettings`.
 
-Use `Log.Debug()` to write debug events when the application is running as a service. And `Log.Info()` or `Log.Error()` to write any information events and errors. It is possible to easy switch to another logger like [log4net](http://logging.apache.org/log4net/) or [NLog](http://nlog-project.org/).
-
+Define the following field in each class where you need logging. It's needed to keep correct caller class name for each log line.
+```cs
+private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+```
+Then use `Logger.Debug()`, `Logger.Info()`, `Logger.Error()`, etc.
 
 ## Notes
 
-If you want use default `app.config` instead of `config.xml` then just switch a comment block for `GetConfigurationValue` function at the end of `Config.cs`.
 
 Administrator privileges are required for a service install/uninstall. UAC execution level of the application is defined in `app.manifest`. Switch comment block there if you need to disable required administrator rights.
 ```xml
@@ -46,4 +42,11 @@ Administrator privileges are required for a service install/uninstall. UAC execu
 ```
 By default a service will be installed under account `LocalSystem`. You can change it in `Installer.cs` (`serviceProcessInstaller1.Account` property from a designer or in code).
 
-Before install/uninstall change an unique service name string `ServiceName` in your configuration file.
+Before install/uninstall you can change `DisplayName`, `ServiceName` and `Description` in `Installer.cs`.
+
+![](http://i.imgur.com/OJ6AGPS.png)
+
+The [`ServiceName`](https://msdn.microsoft.com/en-us/library/system.serviceprocess.serviceinstaller.servicename(v=vs.110).aspx) cannot be null or have zero length. Its maximum size is 256 characters. It also cannot contain forward or backward slashes, '/' or '\', or characters from the ASCII character set with value less than decimal value 32.
+
+
+Register on http://exceptionless.io (one project for free) to obtain API KEY and put it in `App.config`. It will allow you to log automatically all unhandled exceptions, and save a lot of time if your service was crashed at production. It's also possible to self hosting Exceptionless server https://github.com/exceptionless/Exceptionless and API KEY can be stored in code.
