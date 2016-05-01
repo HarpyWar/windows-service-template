@@ -52,6 +52,10 @@
       <HintPath>..\packages\Exceptionless.Portable.3.4.1673\lib\net40\Exceptionless.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Formo, Version=1.4.4.40853, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Formo.1.4.4.40853\lib\net40\Formo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.3\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
@@ -69,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>

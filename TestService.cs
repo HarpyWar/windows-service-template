@@ -29,7 +29,7 @@ namespace WindowsServiceTemplate
 
         private void DoWork()
         {
-            var i = new Random().Next(100);
+            var i = AppSettings.StartFrom;
             while (true)
             {
                 Logger.Info("Ping " + i);

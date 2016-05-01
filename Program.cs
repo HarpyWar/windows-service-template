@@ -19,6 +19,7 @@ namespace WindowsServiceTemplate
         static void Main(string[] args)
         {
             ExceptionlessClient.Default.Register();
+            AppSettings.Init();
 
             // self service installer/uninstaller
             if (args != null && args.Length == 1
