@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration.Install;
-using System.Linq;
 
 namespace WindowsServiceTemplate
 {
@@ -15,25 +12,34 @@ namespace WindowsServiceTemplate
             InitializeComponent();
         }
 
+        private string GetName()
+        {
+            var friendlyName = AppDomain.CurrentDomain.FriendlyName;
+            return friendlyName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ?
+                                friendlyName.Substring(0, friendlyName.Length - 4) :
+                                friendlyName;
+        }
 
-        protected override void OnBeforeInstall(System.Collections.IDictionary savedState)
+        protected override void OnBeforeInstall(IDictionary savedState)
         {
             base.OnBeforeInstall(savedState);
 
             // set service name
-            this.serviceInstaller1.DisplayName = Config.DisplayName;
-            this.serviceInstaller1.ServiceName = Config.ServiceName;
-            this.serviceInstaller1.Description = Config.Description;
+            var name = GetName();
+            serviceInstaller1.DisplayName = name;
+            serviceInstaller1.ServiceName = name;
+            serviceInstaller1.Description = name;
         }
 
-        protected override void OnBeforeUninstall(System.Collections.IDictionary savedState)
+        protected override void OnBeforeUninstall(IDictionary savedState)
         {
             base.OnBeforeUninstall(savedState);
 
             // set service name
-            this.serviceInstaller1.DisplayName = Config.DisplayName;
-            this.serviceInstaller1.ServiceName = Config.ServiceName;
-            this.serviceInstaller1.Description = Config.Description;
+            var name = GetName();
+            serviceInstaller1.DisplayName = name;
+            serviceInstaller1.ServiceName = name;
+            serviceInstaller1.Description = name;
         }
     }
 }

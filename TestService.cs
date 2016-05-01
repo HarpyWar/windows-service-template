@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using NLog;
 
 namespace WindowsServiceTemplate
 {
@@ -8,32 +9,35 @@ namespace WindowsServiceTemplate
     /// </summary>
     public class TestService
     {
-        private readonly Thread t;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private readonly Thread _thread;
         public TestService()
         {
-            t = new Thread(doWork);
+            _thread = new Thread(DoWork);
         }
 
         public void Start()
         {
-            t.Start();
+            _thread.Start();
         }
         public void Stop()
         {
-            t.Abort();
+            _thread.Abort();
         }
 
 
-        private void doWork()
+        private void DoWork()
         {
-            int i = Config.StartFrom;
+            var i = new Random().Next(100);
             while (true)
             {
-                Log.Info("Ping " + i);
+                Logger.Info("Ping " + i);
                 i++;
 
                 Thread.Sleep(1000);
             }
+// ReSharper disable once FunctionNeverReturns
         }
 
 
