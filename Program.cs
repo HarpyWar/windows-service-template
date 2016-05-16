@@ -30,15 +30,15 @@ namespace WindowsServiceTemplate
                     case "install":
                     case "i":
                         if (!ServiceInstallerUtility.InstallMe())
-                            Console.WriteLine("Failed to install service");
+                            Logger.Fatal("Failed to install service");
                         break;
                     case "uninstall":
                     case "u":
                         if (!ServiceInstallerUtility.UninstallMe())
-                            Console.WriteLine("Failed to uninstall service");
+                            Logger.Fatal("Failed to uninstall service");
                         break;
                     default:
-                        Console.WriteLine("Unrecognized parameters (allowed: /install or /uninstall)");
+                        Logger.Error("Unrecognized parameters (allowed: /install and /uninstall, shorten /i and /u)");
                         break;
                 }
                 Environment.Exit(0);
@@ -56,7 +56,7 @@ namespace WindowsServiceTemplate
 
                 Console.Title = AppDomain.CurrentDomain.FriendlyName;
 
-                Logger.Debug("Running in a console mode");
+                Logger.Debug("Running in console mode");
                 _service.Start();
 
                 Console.WriteLine("Press any key to stop the service...");
@@ -67,7 +67,7 @@ namespace WindowsServiceTemplate
             // service mode
             else
             {
-                Logger.Debug("Running in a service mode");
+                Logger.Debug("Running in service mode");
                 ServiceBase.Run(servicesToRun);
             }
         }

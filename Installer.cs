@@ -14,7 +14,12 @@ namespace WindowsServiceTemplate
 
         #region Service Properties (you can be freely change it)
 
-        private string DisplayName
+        /// <summary>
+        /// The ServiceName cannot be null or have zero length. Its maximum size is 256 characters. 
+        /// It also cannot contain forward or backward slashes, '/' or '\', or characters 
+        /// from the ASCII character set with value less than decimal value 32.
+        /// </summary>
+        private string ServiceName
         {
             get
             {
@@ -25,11 +30,11 @@ namespace WindowsServiceTemplate
             }
         }
 
-        private string ServiceName
+        private string DisplayName
         {
             get
             {
-                return DisplayName;
+                return ServiceName;
             }
         }
 
@@ -37,7 +42,7 @@ namespace WindowsServiceTemplate
         {
             get
             {
-                return DisplayName;
+                return ServiceName;
             }
         }
 
@@ -48,8 +53,8 @@ namespace WindowsServiceTemplate
         {
             base.OnBeforeInstall(savedState);
 
-            serviceInstaller1.DisplayName = DisplayName;
             serviceInstaller1.ServiceName = ServiceName;
+            serviceInstaller1.DisplayName = DisplayName;
             serviceInstaller1.Description = Description;
         }
 
@@ -57,8 +62,8 @@ namespace WindowsServiceTemplate
         {
             base.OnBeforeUninstall(savedState);
 
-            serviceInstaller1.DisplayName = DisplayName;
             serviceInstaller1.ServiceName = ServiceName;
+            serviceInstaller1.DisplayName = DisplayName;
             serviceInstaller1.Description = Description;
         }
     }

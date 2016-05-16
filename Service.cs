@@ -16,19 +16,19 @@ namespace WindowsServiceTemplate
 
         protected override void OnStart(string[] args)
         {
-            Logger.Debug("Start event");
+            Logger.Info("Start event");
             s.Start();
         }
 
         protected override void OnStop()
         {
-            Logger.Debug("Stop event");
+            Logger.Info("Stop event");
             s.Stop();
         }
 
         protected override void OnShutdown()
         {
-            Logger.Debug("Windows is going shutdown");
+            Logger.Info("Windows is going shutdown");
             Stop();
         }
 

@@ -32,7 +32,7 @@ namespace WindowsServiceTemplate
             var i = AppSettings.StartFrom;
             while (true)
             {
-                Logger.Info("Ping " + i);
+                Logger.Debug("Ping " + i);
                 i++;
 
                 Thread.Sleep(1000);

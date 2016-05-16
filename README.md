@@ -2,9 +2,7 @@
 Windows Service Project Template
 ========================
 
-C# project template with an additional frequently used functionality. 
-
-Please, examine a commit history if you want to understand the details.
+Default C# project template with additional frequently used features. 
 
 
 ## Features
@@ -18,24 +16,27 @@ Please, examine a commit history if you want to understand the details.
 
 ## Quick Start to develop your own windows service
 
-`TestService.cs` is an example polling service. It just sends "ping" to a terminal window for each second. Rename and modify it to suit your needs.
+First rename `WindowsServiceTemplate.csproj` of your project, namespaces using Refactor tool, and `AssemblyInfo.cs` properties.
+
+`TestService.cs` is an example polling service that run in a separate thread. It just sends "ping" to stdout for each second. Rename and modify it to suit your needs.
 
 In the `Service.cs` you can handle service events like `Start`, `Stop` and `Shutdown`.
 
 In the `Installer.cs` you can handle `Before` and `After` installation events.
 
-In the `AppSettings.cs` you can define own properties that should conform to properties in `App.config` section `appSettings`.
+In the `AppSettings.cs` you can define own properties that should conform to properties in `App.config` of section `appSettings`.
 
-Define the following field in each class where you need logging. It's needed to keep correct caller class name for each log line.
+Define `Logger` variable in each class where you need logging. It's needed to keep correct caller class name in each log line:
 ```cs
 private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 ```
 Then use `Logger.Debug()`, `Logger.Info()`, `Logger.Error()`, etc.
 
+
 ## Notes
 
 
-Administrator privileges are required for a service install/uninstall. UAC execution level of the application is defined in `app.manifest`. Switch comment block there if you need to disable required administrator rights.
+Administrator privileges are required to install/uninstall a service. UAC execution level of the application is defined in `app.manifest`. Switch comment block there if you need to disable required administrator rights.
 ```xml
 <!--<requestedExecutionLevel level="asInvoker" uiAccess="false" />-->
 <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
@@ -49,4 +50,4 @@ Before install/uninstall you can change `DisplayName`, `ServiceName` and `Descri
 The [`ServiceName`](https://msdn.microsoft.com/en-us/library/system.serviceprocess.serviceinstaller.servicename(v=vs.110).aspx) cannot be null or have zero length. Its maximum size is 256 characters. It also cannot contain forward or backward slashes, '/' or '\', or characters from the ASCII character set with value less than decimal value 32.
 
 
-Register on http://exceptionless.io (one project for free) to obtain API KEY and put it in `App.config`. It will allow you to log automatically all unhandled exceptions, and save a lot of time if your service was crashed at production. It's also possible to self hosting Exceptionless server https://github.com/exceptionless/Exceptionless and API KEY can be stored in code.
+Sign in on http://exceptionless.io (one project for free) to obtain API KEY and put it in `App.config`. It will allow you to log automatically all unhandled exceptions, and save a lot of time if your service was crashed at production. Your API KEY can be stored in code. It's also possible to self hosting [Exceptionless server](https://github.com/exceptionless/Exceptionless). 
